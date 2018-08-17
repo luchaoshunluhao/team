@@ -10,8 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-
-    return view('welcome');
+Route::group(['prefix' => 'admin'], function(){
+    Route::get('matchdata/index', 'Admin\MatchdataController@index')->name('matchdata_index');
 });
+
