@@ -35,7 +35,7 @@
         -
         <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
                class="input-text Wdate" style="width:120px;">
-        <input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
+        <input type="text" class="input-text" style="width:250px" placeholder="输入运动员、比赛名称" id="" name="">
         <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜比赛数据
         </button>
     </div>
@@ -62,6 +62,7 @@
             </thead>
             <tbody>
             @foreach($data as $item)
+                @if($item->del == 1)
             <tr class="text-c">
                 <td><input type="checkbox" value="1" name=""></td>
                 <td>{{ $item->id }}</td>
@@ -74,20 +75,11 @@
                 <td>{{ $item->bat_number }}</td>
                 <td>{{ $item->tool }}</td>
                 <td>{{ $item->get_lose }}</td>
-                <td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,'10001')"
-                                         href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a
-                            title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')"
-                            class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a
-                            style="text-decoration:none" class="ml-5"
-                            onClick="change_password('修改密码','change-password.html','10001','600','270')"
-                            href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a> <a title="删除"
-                                                                                                         href="javascript:;"
-                                                                                                         onclick="member_del(this,'1')"
-                                                                                                         class="ml-5"
-                                                                                                         style="text-decoration:none"><i
-                                class="Hui-iconfont">&#xe6e2;</i></a></td>
+                <td class="td-manage"><a
+                            title="编辑" href="javascript:;" onclick="member_edit('编辑','{{ route('matchdata_edit', ['id' => $item->id]) }}','4','','580')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,'{{ $item->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
             </tr>
-                @endforeach
+                @endif
+            @endforeach
             </tbody>
         </table>
     </div>
@@ -108,7 +100,6 @@
             "aaSorting": [[1, "desc"]],//默认第几个排序
             "bStateSave": true,//状态保存
             "aoColumnDefs": [
-                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
                 {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
             ]
         });
@@ -120,58 +111,8 @@
         layer_show(title, url, w, h);
     }
 
-    /*比赛数据-查看*/
-    function member_show(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
-
-    /*比赛数据-停用*/
-    function member_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '',
-                dataType: 'json',
-                success: function (data) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
-                    $(obj).remove();
-                    layer.msg('已停用!', {icon: 5, time: 1000});
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
-            });
-        });
-    }
-
-    /*比赛数据-启用*/
-    function member_start(obj, id) {
-        layer.confirm('确认要启用吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '',
-                dataType: 'json',
-                success: function (data) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-                    $(obj).remove();
-                    layer.msg('已启用!', {icon: 6, time: 1000});
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
-            });
-        });
-    }
-
     /*比赛数据-编辑*/
     function member_edit(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
-
-    /*密码-修改*/
-    function change_password(title, url, id, w, h) {
         layer_show(title, url, w, h);
     }
 
@@ -179,15 +120,20 @@
     function member_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
-                type: 'POST',
-                url: '',
+                type: 'GET',
+                url: '{{ route('matchdata_del') }}',
+                data: {id: id},
                 dataType: 'json',
                 success: function (data) {
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!', {icon: 1, time: 1000});
+                    if(data.code == 0) {
+                        $(obj).parents("tr").remove();
+                        layer.msg(data.msg, {icon: 1, time: 1000});
+                    } else {
+                        layer.msg(data.msg, {icon: 5, time: 2000});
+                    }
                 },
                 error: function (data) {
-                    console.log(data.msg);
+                    layer.msg(data.msg, {icon: 5, time: 2000});
                 },
             });
         });

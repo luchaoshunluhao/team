@@ -25,66 +25,72 @@
     <![endif]-->
     <!--/meta 作为公共模版分离出去-->
 
-    <title>添加添加比赛数据 - H-ui.admin v3.1</title>
+    <title>修改修改比赛数据 - H-ui.admin v3.1</title>
     <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
     <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <article class="page-container">
-    <form action="{{ route('matchdata_add') }}" method="post" class="form form-horizontal" id="form-member-add">
+    <form action="{{ route('matchdata_edit') }}" method="post" class="form form-horizontal" id="form-member-add">
         {{ csrf_field() }}
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>数据编号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" disabled="disabled" class="input-text" value="{{ $data[0]->id }}" placeholder="" id="username" name="username">
+            </div>
+        </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>运动员名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="username" name="username">
+                <input type="text" class="input-text" value="{{ $data[0]->user_name }}" placeholder="" id="username" name="username">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>比赛名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="gamename" name="gamename">
+                    <input type="text" class="input-text" value="{{ $data[0]->game_name }}" id="gamename" name="gamename">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>局数：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="inning" name="inning">
+                <input type="text" class="input-text" value="{{ $data[0]->class }}" id="inning" name="inning">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>得分：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="score_up" id="score_up">
+                <input type="text" class="input-text" value="{{ $data[0]->score_first }}" name="score_up" id="score_up">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>失分：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="score_down" id="score_down">
+                <input type="text" value="{{ $data[0]->score_last }}" class="input-text" name="score_down" id="score_down">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>接发球：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="serve_catch" id="serve_catch">
+                <input type="text" class="input-text" value="{{ $data[0]->send }}" name="serve_catch" id="serve_catch">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>板数：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="plate_num" id="plate_num">
+                <input type="text" value="{{ $data[0]->bat_number }}" class="input-text" name="plate_num" id="plate_num">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手段：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="means" id="means">
+                <input type="text" value="{{ $data[0]->tool }}" class="input-text" name="means" id="means">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>得失分：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="goal">
+                <input type="text" value="{{ $data[0]->get_lose }}" class="input-text" name="goal">
             </div>
         </div>
         <div class="row cl">
@@ -173,7 +179,7 @@
                     }
                 });
             }
-        });
+    });
     });
 
 </script>
