@@ -11,6 +11,9 @@
 |
 */
 Route::group(['prefix' => 'admin'], function(){
+    Route::get('index/index', 'Admin\IndexController@index')->name('index_index');
+    Route::get('index/welcome', 'Admin\IndexController@welcome')->name('index_welcome');
     Route::get('matchdata/index', 'Admin\MatchdataController@index')->name('matchdata_index');
+    Route::any('matchdata/add', 'Admin\MatchdataController@add')->name('matchdata_add');
 });
 
