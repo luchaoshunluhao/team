@@ -20,6 +20,14 @@
 
 Route::group(['prefix' => 'admin'], function(){
 
+    Route::get('index/index', 'Admin\IndexController@index')->name('index_index');
+    Route::get('index/welcome', 'Admin\IndexController@welcome')->name('index_welcome');
+    Route::get('matchdata/index', 'Admin\MatchdataController@index')->name('matchdata_index');
+    Route::any('matchdata/add', 'Admin\MatchdataController@add')->name('matchdata_add');
+    Route::any('matchdata/edit', 'Admin\MatchdataController@edit')->name('matchdata_edit');
+    Route::get('matchdata/del', 'Admin\MatchdataController@del')->name('matchdata_del');
+
+
     Route::any('Sportsman/index','Admin\SportsmanController@index')->name('Sportsman_index');
     Route::any('Sportsman/add','Admin\SportsmanController@add')->name('Sportsman_add');
     Route::any('Sportsman/edit','Admin\SportsmanController@edit')->name('Sportsman_edit');
