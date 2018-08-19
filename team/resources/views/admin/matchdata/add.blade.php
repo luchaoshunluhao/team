@@ -118,8 +118,6 @@
             rules: {
                 username: {
                     required: true,
-                    minlength: 2,
-                    maxlength: 16
                 },
                 gamename: {
                     required: true,

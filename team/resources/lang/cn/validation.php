@@ -147,6 +147,7 @@ return [
         'first_name'            => '名',
         'last_name'             => '姓',
         'password'              => '密码',
+        'userpwd'               => '密码',
         'password_confirmation' => '确认密码',
         'city'                  => '城市',
         'country'               => '国家',
