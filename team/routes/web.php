@@ -17,7 +17,9 @@
 //
 //});
 
-
+Route::any('home/index/default', 'Home\IndexController@default')->name('default');
+Route::any('home/index/list', 'Home\IndexController@list')->name('list');
+Route::any('test', 'Api\TestController@return_data')->name('test');
 
 Route::any('admin/public/login', 'Admin\PublicController@login')->name('login');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin']], function(){
